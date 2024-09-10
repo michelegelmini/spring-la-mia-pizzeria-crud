@@ -12,34 +12,20 @@
 		<main class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1>Menu</h1>
-					<form th:action="@{/menu}" method="GET">
-						<div class="input-group input-group-sm mb-3">
-							<span class="input-group-text" id="inputGroup-sizing-sm">Search for pizza by name</span>
-							<input type="text" class="form-control" name="name">
-							<input type="submit" class="form-control btn btn-sm btn-success">
-							
-						</div>
-					</form>
+					<th:block th:object="${pizza}">
 
-					<th:block th:if="${menu.size > 0}">
-						<!--photo grid-->
-						<div class="container">
-							<div class="row">
-								<div th:each="pizza : ${menu}" class="col-4">
-									<a th:href="@{menu/{id}(id=${pizza.id})}">
-										<img th:src="@{${pizza.picture}}" class="img-fluid" alt="Responsive image">
-									</a>
+						<h1 class="text-center" th:text=*{name}></h1>
+						<!--single card-->
+						<div class="container d-flex justify-content-center">
+							<div class="card text-center" style="width: 18rem;">
+								<img class="card-img-top" th:src="@{*{picture}}" alt="Card image cap">
+								<div class="card-body">
+									<h5 class="card-title" th:text="*{name}"></h5>
+									<p class="card-text" th:text="*{description}"></p>
+									<a th:href="@{/menu}" class="btn btn-primary">Back to menu</a>
 								</div>
-
-
-
 							</div>
 						</div>
-
-					</th:block>
-					<th:block th:unless="${menu.size > 0}">
-						<h2>No pizza has been found with query [[ ${pizzaName} ]]</h2>
 					</th:block>
 				</div>
 			</div>

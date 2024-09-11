@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/menu")
@@ -27,19 +32,19 @@ public class PizzaController {
 		model.addAttribute("pizzaName", name);
 		List<Pizza> pizzaList;
 
-		if (name!=null && !name.isEmpty()) {
+		if (name != null && !name.isEmpty()) {
 			model.addAttribute("pizzaName", name);
 			pizzaList = repo.findByNameContainingIgnoreCaseOrderByNameAsc(name);
-			
+
 		} else {
 			// prendo i dati da consegnare a pizzas
 			pizzaList = repo.findAll(Sort.by("name"));
 		}
 
-		//pizzaList = repo.findAll();
+		// pizzaList = repo.findAll();
 		// li inserisco nel modello
 		model.addAttribute("menu", pizzaList);
-		
+
 		return "/pizzas/menu";
 	}
 
@@ -48,13 +53,21 @@ public class PizzaController {
 		model.addAttribute("pizza", repo.findById(pizzaId).get());
 		return "/pizzas/show";
 	}
-	
-//	@GetMapping("search/{name}")
-//	public String findByNameContainingIgnoreCaseOrderByNameAsc(@PathVariable String name, Model model) {
-//		model.addAttribute("pizzas", repo.findByNameContainingIgnoreCaseOrderByNameAsc(name));
-//		return "/pizzas/menu";
-//	}
 
+	@GetMapping("/create")
+	public String create(Model model) {
+		model.addAttribute("pizza", new Pizza());
+		return "/pizzas/create";
+	}
+	
+	@PostMapping("/create")
+	public String store(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			return "/pizzas/create";
+		}
+		repo.save(formPizza);
+		return "redirect:/menu";
+	}
 
 }
- 

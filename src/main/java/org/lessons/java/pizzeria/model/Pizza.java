@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "menu")
@@ -14,10 +17,21 @@ public class Pizza {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull
+	@Size(min=2, max=255)
+	@NotEmpty
 	private String name;
+	
+	@NotNull
+	@NotEmpty
 	private String description;
+	
+	@NotNull
+	@NotEmpty
 	private String picture;
 	
+	@NotNull
 	@Column(name = "price", nullable = false)
 	private Float price;
 

@@ -117,7 +117,7 @@ public class PizzaController {
 		//deleteById cerca ed elimina in un unico comando
 		repo.deleteById(id);
 		
-		attributes.addFlashAttribute("successMessage", "Pizza with id " + id + " has been deleted!");
+		attributes.addFlashAttribute("deletedMessage", "Pizza with id " + id + " has been deleted!");
 		
 		return "redirect:/menu";
 	}

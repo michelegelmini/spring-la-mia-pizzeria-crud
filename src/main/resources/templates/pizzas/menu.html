@@ -29,8 +29,11 @@
 					<th:block th:if="${successMessage != null}">
 						<div th:insert="~{fragments/fragments :: successAlert(${successMessage})}"></div>
 					</th:block>
-					
-					
+					<th:block th:if="${deletedMessage != null}">
+						<div th:insert="~{fragments/fragments :: deletedAlert(${deletedMessage})}"></div>
+					</th:block>
+
+
 					<th:block th:if="${menu.size > 0}">
 						<!--photo grid-->
 						<div class="container text-center">

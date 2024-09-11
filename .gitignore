@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+*.class
+.DS_Store
+*.txt
